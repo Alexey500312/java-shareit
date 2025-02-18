@@ -11,7 +11,6 @@ import ru.practicum.shareit.user.dto.UserModifyDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(Long userId, UserModifyDto userModifyDto) {
         User user = findUserById(userId);
         final String email = userModifyDto.getEmail();
-        if (!Objects.equals(email, user.getEmail())) {
+        if (email != null && !email.equalsIgnoreCase(user.getEmail())) {
             checkUserEmail(email);
         }
         User newUser = new User(
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkUserEmail(final String email) {
-        if (userRepository.getRegisteredEmails().contains(email)) {
+        if (userRepository.getRegisteredEmails().contains(email.toLowerCase())) {
             throw new DataAlreadyExistException(String.format("Email %s уже зарегестрирован!", email));
         }
     }

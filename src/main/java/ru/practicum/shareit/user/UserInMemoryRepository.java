@@ -25,16 +25,16 @@ public class UserInMemoryRepository implements UserRepository {
     public User createUser(User user) {
         user.setId(getId());
         users.put(user.getId(), user);
-        uniqueEmails.add(user.getEmail());
+        uniqueEmails.add(user.getEmail().toLowerCase());
         return user;
     }
 
     @Override
     public User updateUser(User user) {
         User userOld = users.put(user.getId(), user);
-        final String newEmail = user.getEmail();
-        final String oldEmail = userOld.getEmail();
-        if (!Objects.equals(newEmail, oldEmail)) {
+        final String newEmail = user.getEmail().toLowerCase();
+        final String oldEmail = userOld.getEmail().toLowerCase();
+        if (!newEmail.equals(oldEmail)) {
             uniqueEmails.remove(oldEmail);
             uniqueEmails.add(newEmail);
         }
@@ -43,7 +43,7 @@ public class UserInMemoryRepository implements UserRepository {
 
     @Override
     public void deleteUser(User user) {
-        uniqueEmails.remove(user.getEmail());
+        uniqueEmails.remove(user.getEmail().toLowerCase());
         users.remove(user.getId());
     }
 
