@@ -2,13 +2,13 @@ package ru.practicum.shareit.user;
 
 import ru.practicum.shareit.user.model.User;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserRepository {
     Optional<User> findUserById(Long userId);
 
-    List<User> getUsers();
+    Set<String> getRegisteredEmails();
 
     User createUser(User user);
 

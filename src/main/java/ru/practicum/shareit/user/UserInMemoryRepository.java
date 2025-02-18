@@ -9,6 +9,7 @@ import java.util.*;
 public class UserInMemoryRepository implements UserRepository {
     private Long id = 0L;
     private final Map<Long, User> users = new HashMap<>();
+    private final Set<String> uniqueEmails = new HashSet<>();
 
     @Override
     public Optional<User> findUserById(Long userId) {
@@ -16,25 +17,33 @@ public class UserInMemoryRepository implements UserRepository {
     }
 
     @Override
-    public List<User> getUsers() {
-        return new ArrayList<>(users.values());
+    public Set<String> getRegisteredEmails() {
+        return uniqueEmails;
     }
 
     @Override
     public User createUser(User user) {
         user.setId(getId());
         users.put(user.getId(), user);
+        uniqueEmails.add(user.getEmail());
         return user;
     }
 
     @Override
     public User updateUser(User user) {
-        users.put(user.getId(), user);
+        User userOld = users.put(user.getId(), user);
+        final String newEmail = user.getEmail();
+        final String oldEmail = userOld.getEmail();
+        if (!Objects.equals(newEmail, oldEmail)) {
+            uniqueEmails.remove(oldEmail);
+            uniqueEmails.add(newEmail);
+        }
         return user;
     }
 
     @Override
     public void deleteUser(User user) {
+        uniqueEmails.remove(user.getEmail());
         users.remove(user.getId());
     }
 

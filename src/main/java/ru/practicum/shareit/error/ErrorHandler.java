@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.shareit.exception.CRUDException;
+import ru.practicum.shareit.exception.DataAlreadyExistException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
 
 @Slf4j
 @RestControllerAdvice
@@ -30,8 +30,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleValidation(ValidationException e) {
-        log.info("Ошибка валидации: {}", e.getMessage());
+    public ErrorResponse handleDataAlreadyExist(DataAlreadyExistException e) {
+        log.info(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 

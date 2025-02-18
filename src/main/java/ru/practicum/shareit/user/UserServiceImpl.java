@@ -2,8 +2,8 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.DataAlreadyExistException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -11,6 +11,7 @@ import ru.practicum.shareit.user.dto.UserModifyDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,19 +26,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserModifyDto userModifyDto) {
+        checkUserEmail(userModifyDto.getEmail());
         User user = UserMapper.toUser(userModifyDto);
-        checkUserEmail(user);
         return UserMapper.toUserDto(userRepository.createUser(user));
     }
 
     @Override
     public UserDto updateUser(Long userId, UserModifyDto userModifyDto) {
         User user = findUserById(userId);
+        final String email = userModifyDto.getEmail();
+        if (!Objects.equals(email, user.getEmail())) {
+            checkUserEmail(email);
+        }
         User newUser = new User(
                 userId,
                 userModifyDto.getName() != null ? userModifyDto.getName() : user.getName(),
-                userModifyDto.getEmail() != null ? userModifyDto.getEmail() : user.getEmail());
-        checkUserEmail(newUser);
+                email != null ? email : user.getEmail());
         return UserMapper.toUserDto(userRepository.updateUser(newUser));
     }
 
@@ -51,14 +55,9 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteUser(user);
     }
 
-    private void checkUserEmail(final User user) {
-        boolean emailFree = userRepository.getUsers().stream()
-                .filter(u -> !u.getId().equals(user.getId()) && u.getEmail().equals(user.getEmail()))
-                .limit(1)
-                .toList()
-                .isEmpty();
-        if (!emailFree) {
-            throw new ValidationException(String.format("Email %s уже зарегестрирован!", user.getEmail()));
+    private void checkUserEmail(final String email) {
+        if (userRepository.getRegisteredEmails().contains(email)) {
+            throw new DataAlreadyExistException(String.format("Email %s уже зарегестрирован!", email));
         }
     }
 
