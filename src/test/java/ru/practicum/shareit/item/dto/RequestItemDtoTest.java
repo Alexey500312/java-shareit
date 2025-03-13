@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ItemModifyDtoTest {
+public class RequestItemDtoTest {
     ValidatorFactory validatorFactory;
     Validator validator;
 
@@ -33,12 +33,12 @@ public class ItemModifyDtoTest {
     @Test
     @DisplayName("Имя вещи")
     public void shouldName() {
-        ItemModifyDto itemModifyDto = ItemModifyDto.builder()
+        RequestItemDto itemModifyDto = RequestItemDto.builder()
                 .description("test")
                 .available(true)
                 .build();
 
-        List<ConstraintViolation<ItemModifyDto>> violations = new ArrayList<>(validator.validate(itemModifyDto, ValidatorGroups.Create.class));
+        List<ConstraintViolation<RequestItemDto>> violations = new ArrayList<>(validator.validate(itemModifyDto, ValidatorGroups.Create.class));
         assertFalse(violations.isEmpty(), "Валидация пройдена");
         assertEquals("Имя не может быть пустым", violations.getFirst().getMessage());
 
@@ -65,12 +65,12 @@ public class ItemModifyDtoTest {
     @Test
     @DisplayName("Описание вещи")
     public void shouldescription() {
-        ItemModifyDto itemModifyDto = ItemModifyDto.builder()
+        RequestItemDto itemModifyDto = RequestItemDto.builder()
                 .name("test")
                 .available(true)
                 .build();
 
-        List<ConstraintViolation<ItemModifyDto>> violations =
+        List<ConstraintViolation<RequestItemDto>> violations =
                 new ArrayList<>(validator.validate(itemModifyDto, ValidatorGroups.Create.class));
         assertFalse(violations.isEmpty(), "Валидация пройдена");
         assertEquals("Описание не может быть пустым", violations.getFirst().getMessage());
@@ -98,12 +98,12 @@ public class ItemModifyDtoTest {
     @Test
     @DisplayName("Статус доступности вещи для аренды")
     public void shouldAvailable() {
-        ItemModifyDto itemModifyDto = ItemModifyDto.builder()
+        RequestItemDto itemModifyDto = RequestItemDto.builder()
                 .name("test")
                 .description("test")
                 .build();
 
-        List<ConstraintViolation<ItemModifyDto>> violations =
+        List<ConstraintViolation<RequestItemDto>> violations =
                 new ArrayList<>(validator.validate(itemModifyDto, ValidatorGroups.Create.class));
         assertFalse(violations.isEmpty(), "Валидация пройдена");
         assertEquals("Статус доступности вещи для аренды не может быть пустым", violations.getFirst().getMessage());

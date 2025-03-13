@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserModifyDtoTest {
+public class RequestUserDtoTest {
     ValidatorFactory validatorFactory;
     Validator validator;
 
@@ -33,11 +33,11 @@ public class UserModifyDtoTest {
     @Test
     @DisplayName("Имя пользователя")
     public void shouldName() {
-        UserModifyDto userModifyDto = UserModifyDto.builder()
+        RequestUserDto userModifyDto = RequestUserDto.builder()
                 .email("test@yandex.ru")
                 .build();
 
-        List<ConstraintViolation<UserModifyDto>> violations =
+        List<ConstraintViolation<RequestUserDto>> violations =
                 new ArrayList<>(validator.validate(userModifyDto, ValidatorGroups.Create.class));
         assertFalse(violations.isEmpty(), "Валидация пройдена");
         assertEquals("Имя не может быть пустым", violations.getFirst().getMessage());
@@ -65,11 +65,11 @@ public class UserModifyDtoTest {
     @Test
     @DisplayName("Электронная почта пользователя")
     public void shouldEmail() {
-        UserModifyDto userModifyDto = UserModifyDto.builder()
+        RequestUserDto userModifyDto = RequestUserDto.builder()
                 .name("name")
                 .build();
 
-        List<ConstraintViolation<UserModifyDto>> violations = new ArrayList<>(validator.validate(userModifyDto, ValidatorGroups.Create.class));
+        List<ConstraintViolation<RequestUserDto>> violations = new ArrayList<>(validator.validate(userModifyDto, ValidatorGroups.Create.class));
         assertFalse(violations.isEmpty(), "Валидация пройдена");
         assertEquals("Электронная почта не может быть пустой", violations.getFirst().getMessage());
 
