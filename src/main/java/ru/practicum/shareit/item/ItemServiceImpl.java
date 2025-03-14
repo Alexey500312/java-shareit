@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.booking.dto.ShrotBookingDto;
+import ru.practicum.shareit.booking.dto.ShortBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.CRUDException;
 import ru.practicum.shareit.exception.ChekParamException;
@@ -39,8 +39,8 @@ public class ItemServiceImpl implements ItemService {
     public ItemInfoDto getItem(Long userId, Long itemId) {
         Item item = findItemById(itemId);
         ItemInfoDto itemInfoDto = itemMapper.toItemInfoDto(item);
-        Map<Long, ShrotBookingDto> lastBookings = new HashMap<>();
-        Map<Long, ShrotBookingDto> nextBookings = new HashMap<>();
+        Map<Long, ShortBookingDto> lastBookings = new HashMap<>();
+        Map<Long, ShortBookingDto> nextBookings = new HashMap<>();
         if (item.getOwner().getId().equals(userId)) {
             lastBookings = getLastNextBookings(userId, List.of(itemInfoDto.getId()), BookingType.LAST);
             nextBookings = getLastNextBookings(userId, List.of(itemInfoDto.getId()), BookingType.NEXT);
@@ -61,8 +61,8 @@ public class ItemServiceImpl implements ItemService {
         List<Long> itemIds = items.stream()
                 .map(Item::getId)
                 .toList();
-        Map<Long, ShrotBookingDto> lastBookings = getLastNextBookings(userId, itemIds, BookingType.LAST);
-        Map<Long, ShrotBookingDto> nextBookings = getLastNextBookings(userId, itemIds, BookingType.NEXT);
+        Map<Long, ShortBookingDto> lastBookings = getLastNextBookings(userId, itemIds, BookingType.LAST);
+        Map<Long, ShortBookingDto> nextBookings = getLastNextBookings(userId, itemIds, BookingType.NEXT);
         Map<Long, List<CommentDto>> comments = commentRepository.findByItemIdIn(itemIds).stream()
                 .collect(Collectors.groupingBy(c -> c.getItem().getId(),
                         Collectors.mapping(commentMapper::toCommentDto, Collectors.toList())));
@@ -152,13 +152,13 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException(String.format("Пользователь с id = %d не найден", userId)));
     }
 
-    private Map<Long, ShrotBookingDto> getLastNextBookings(Long userId, List<Long> itemIds, BookingType type) {
+    private Map<Long, ShortBookingDto> getLastNextBookings(Long userId, List<Long> itemIds, BookingType type) {
         List<Booking> bookings = switch (type) {
             case LAST -> bookingRepository.findLastBooking(userId, itemIds);
             case NEXT -> bookingRepository.findNextBooking(userId, itemIds);
         };
         return bookings.stream()
-                .collect(Collectors.toMap(b -> b.getItem().getId(), bookingMapper::toShrotBookingDto));
+                .collect(Collectors.toMap(b -> b.getItem().getId(), bookingMapper::toShortBookingDto));
     }
 
     private enum BookingType {

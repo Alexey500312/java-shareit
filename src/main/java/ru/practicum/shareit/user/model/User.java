@@ -3,9 +3,6 @@ package ru.practicum.shareit.user.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * User
- */
 @Entity
 @Table(name = "users")
 @AllArgsConstructor

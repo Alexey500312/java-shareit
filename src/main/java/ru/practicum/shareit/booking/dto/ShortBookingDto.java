@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShrotBookingDto {
+public class ShortBookingDto {
     private Long id;
     private LocalDateTime start;
     private LocalDateTime end;

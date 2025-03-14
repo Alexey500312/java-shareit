@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.RequestBookingDto;
-import ru.practicum.shareit.booking.dto.ShrotBookingDto;
+import ru.practicum.shareit.booking.dto.ShortBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.ItemMapper;
@@ -49,8 +49,8 @@ public class BookingMapper {
                 .build();
     }
 
-    public ShrotBookingDto toShrotBookingDto(Booking booking) {
-        return ShrotBookingDto.builder()
+    public ShortBookingDto toShortBookingDto(Booking booking) {
+        return ShortBookingDto.builder()
                 .id(booking.getId())
                 .start(booking.getStart())
                 .end(booking.getEnd())

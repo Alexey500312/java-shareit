@@ -10,9 +10,6 @@ import ru.practicum.shareit.user.dto.RequestUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.validation.ValidatorGroups;
 
-/**
- * UserController
- */
 @Slf4j
 @Validated
 @RestController

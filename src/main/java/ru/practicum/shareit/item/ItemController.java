@@ -11,9 +11,6 @@ import ru.practicum.shareit.validation.ValidatorGroups;
 
 import java.util.List;
 
-/**
- * ItemController
- */
 @Slf4j
 @Validated
 @RestController

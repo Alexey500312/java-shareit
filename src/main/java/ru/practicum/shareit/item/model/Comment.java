@@ -21,9 +21,9 @@ public class Comment {
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
-    Item item;
+    private Item item;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "AUTHOR_ID")
-    User author;
-    LocalDateTime created;
+    private User author;
+    private LocalDateTime created;
 }

@@ -3,9 +3,6 @@ package ru.practicum.shareit.item.dto;
 import lombok.*;
 import ru.practicum.shareit.user.dto.UserDto;
 
-/**
- * ItemDto
- */
 @Getter
 @Setter
 @ToString
