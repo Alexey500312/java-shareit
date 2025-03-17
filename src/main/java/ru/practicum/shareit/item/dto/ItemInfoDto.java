@@ -1,7 +1,9 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.*;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.booking.dto.ShortBookingDto;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,10 +11,12 @@ import ru.practicum.shareit.user.dto.UserDto;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto {
+public class ItemInfoDto {
     private Long id;
     private String name;
     private String description;
-    private UserDto owner;
     private Boolean available;
+    private ShortBookingDto lastBooking;
+    private ShortBookingDto nextBooking;
+    private List<CommentDto> comments;
 }

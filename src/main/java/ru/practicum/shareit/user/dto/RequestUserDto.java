@@ -2,16 +2,17 @@ package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ru.practicum.shareit.validation.NotBlankOrNull;
 import ru.practicum.shareit.validation.ValidatorGroups;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder(toBuilder = true)
 @AllArgsConstructor
-public class UserModifyDto {
+@NoArgsConstructor
+public class RequestUserDto {
     @NotBlank(groups = {ValidatorGroups.Create.class},
             message = "Имя не может быть пустым")
     @NotBlankOrNull(groups = {ValidatorGroups.Update.class},

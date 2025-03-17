@@ -6,13 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.user.dto.RequestUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.dto.UserModifyDto;
 import ru.practicum.shareit.validation.ValidatorGroups;
 
-/**
- * UserController
- */
 @Slf4j
 @Validated
 @RestController
@@ -33,7 +30,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Validated({ValidatorGroups.Create.class})
-    public UserDto createUser(@RequestBody @Valid UserModifyDto userModifyDto) {
+    public UserDto createUser(@RequestBody @Valid RequestUserDto userModifyDto) {
         log.info("Вызван метод POST /users с телом {}", userModifyDto);
         UserDto newUserDto = userService.createUser(userModifyDto);
         log.info("Метод POST /users вернул ответ {}", newUserDto);
@@ -44,7 +41,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @Validated({ValidatorGroups.Update.class})
     public UserDto updateUser(@PathVariable("userId") Long userId,
-                              @RequestBody @Valid UserModifyDto userModifyDto) {
+                              @RequestBody @Valid RequestUserDto userModifyDto) {
         log.info("Вызван метод PATCH /users/{} с телом {}", userId, userModifyDto);
         UserDto newUserDto = userService.updateUser(userId, userModifyDto);
         log.info("Метод PATCH /users/{} вернул ответ {}", userId, newUserDto);
