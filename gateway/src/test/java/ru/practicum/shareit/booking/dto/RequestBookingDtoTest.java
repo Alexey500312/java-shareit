@@ -105,7 +105,7 @@ public class RequestBookingDtoTest {
         RequestBookingDto requestBookingDto = RequestBookingDto.builder()
                 .itemId(1L)
                 .start(LocalDateTime.now().plusDays(1))
-                .end(LocalDateTime.now().plusDays(1))
+                .end(LocalDateTime.now())
                 .build();
 
         List<ConstraintViolation<RequestBookingDto>> violations =
